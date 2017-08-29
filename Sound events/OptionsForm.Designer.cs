@@ -60,9 +60,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(9, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(254, 13);
+            this.label2.Size = new System.Drawing.Size(130, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Microphone (Set this to same as Output if unwanted)";
+            this.label2.Text = "Secondary Output Device";
             // 
             // cmbMic
             // 
@@ -109,7 +109,7 @@
             this.MinimizeBox = false;
             this.Name = "OptionsForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "OptionsForm";
+            this.Text = "Output Settings";
             this.Load += new System.EventHandler(this.OptionsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
