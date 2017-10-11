@@ -38,13 +38,14 @@ namespace Sound_events
                 {
                     ++lineNumber;
                     string[] columns = line.Split('|');
-                    if (columns.Length != 5)
+                    if (columns.Length != 6)
                         continue;
 
                     ModifierKeys mod = (ModifierKeys)Enum.Parse(typeof(ModifierKeys), columns[0]);
                     Keys key = (Keys)Enum.Parse(typeof(Keys), columns[1]);
                     Button btn = new Button();
-                    Event ev = new Event(mod, key, columns[2], columns[3], lineNumber, btn, Convert.ToSingle(columns[4]));
+                    Event.PlayModes playmode = (Event.PlayModes)Enum.Parse(typeof(Event.PlayModes), columns[5]);
+                    Event ev = new Event(mod, key, columns[2], columns[3], lineNumber, btn, Convert.ToSingle(columns[4]), playmode);
 
                     if (!(ev.modifier == Sound_events.ModifierKeys.None && ev.key == Keys.None))
                         hook.RegisterHotKey(ev.modifier, ev.key);
@@ -128,7 +129,7 @@ namespace Sound_events
             if (volumelines.Length > 1)
                 vol = Convert.ToSingle(volumelines[1]);
 
-            Event nev = new Event(nmod, nkey, "reee.mp3", "reeeeeee.jpg", -1, nbtn, vol);
+            Event nev = new Event(nmod, nkey, "reee.mp3", "reeeeeee.jpg", -1, nbtn, vol, Event.PlayModes.multi);
 
             if (!(nev.modifier == Sound_events.ModifierKeys.None && nev.key == Keys.None))
                 hook.RegisterHotKey(nev.modifier, nev.key);
@@ -172,9 +173,38 @@ namespace Sound_events
             {
                 if (e.Modifier == ev.modifier && e.Key == ev.key)
                 {
-                    var sound = new SoundEffect(ev.SoundName, ev.Volume, ev);
-                    sound.parent = this;
-                    soundList.Add(sound);
+                    if (ev.PlayMode == Event.PlayModes.multi)
+                    {
+                        var sound = new SoundEffect(ev.SoundName, ev.Volume, ev);
+                        sound.parent = this;
+                        soundList.Add(sound);
+                    }
+                    else if (ev.PlayMode == Event.PlayModes.start_stop)
+                    {
+                       var sound = soundList.Find((x) => x.soundFileName == ev.SoundName);
+                        if (sound != null)
+                        {
+                            RemoveSound(sound);
+                        }
+                        else
+                        {
+                            sound = new SoundEffect(ev.SoundName, ev.Volume, ev);
+                            sound.parent = this;
+                            soundList.Add(sound);
+                        }
+                    }
+                    else if (ev.PlayMode == Event.PlayModes.once)
+                    {
+                        var sound = soundList.Find((x) => x.soundFileName == ev.SoundName);
+                        if (sound != null)
+                        {
+                            RemoveSound(sound);
+                            sound = new SoundEffect(ev.SoundName, ev.Volume, ev);
+                            sound.parent = this;
+                            soundList.Add(sound);
+                        }
+                    }
+
                 }
             }
         }
@@ -238,13 +268,13 @@ namespace Sound_events
                 int linenum = File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SoundEvents/Sounds.txt").Length;
 
                 Button btn = new Button();
-                Event ev = new Event(form.mods, key, form.sound, form.icon, linenum, btn, form.Volume);
+                Event ev = new Event(form.mods, key, form.sound, form.icon, linenum, btn, form.Volume, Event.PlayModes.multi);
                 events.Add(ev);
 
                 if (!(ev.modifier == Sound_events.ModifierKeys.None && ev.key == Keys.None))
                     hook.RegisterHotKey(ev.modifier, ev.key);
 
-                string line = ev.modifier.ToString() + "|" + ev.key.ToString() + "|" + ev.SoundName + "|" + ev.ImageName + "|" + ev.Volume.ToString();
+                string line = ev.modifier.ToString() + "|" + ev.key.ToString() + "|" + ev.SoundName + "|" + ev.ImageName + "|" + ev.Volume.ToString() + "|" + ev.PlayMode.ToString();
 
                 File.AppendAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SoundEvents/Sounds.txt", new string[1] { line });
 
@@ -291,6 +321,7 @@ namespace Sound_events
             form.Volume = a_ev.Volume;
             form.UseEcho = a_ev.UseEcho;
             form.EchoAmount = a_ev.EchoAmount;
+            form.Playmode = a_ev.PlayMode;
             var result = form.ShowDialog();
 
             if (result == DialogResult.OK)
@@ -321,12 +352,13 @@ namespace Sound_events
                 a_ev.key = key;
                 a_ev.modifier = form.mods;
                 a_ev.Volume = form.Volume;
+                a_ev.PlayMode = form.Playmode;
                 if (form.AllowFileEdit)
                 {
                     a_ev.SoundName = form.sound;
                     a_ev.ImageName = form.icon;
 
-                    string line = a_ev.modifier.ToString() + "|" + a_ev.key.ToString() + "|" + a_ev.SoundName + "|" + a_ev.ImageName + "|" + a_ev.Volume.ToString();
+                    string line = a_ev.modifier.ToString() + "|" + a_ev.key.ToString() + "|" + a_ev.SoundName + "|" + a_ev.ImageName + "|" + a_ev.Volume.ToString() + "|" + a_ev.PlayMode.ToString();
                     string[] lines = File.ReadAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SoundEvents/Sounds.txt");
                     lines[a_ev.lineNum] = line;
                     File.WriteAllLines(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/SoundEvents/Sounds.txt", lines);

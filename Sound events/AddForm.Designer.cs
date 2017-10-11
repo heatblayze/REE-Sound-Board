@@ -45,8 +45,13 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.chkEcho = new System.Windows.Forms.CheckBox();
             this.trackEcho = new System.Windows.Forms.TrackBar();
+            this.rb_playmode_multi = new System.Windows.Forms.RadioButton();
+            this.rb_playmode_once = new System.Windows.Forms.RadioButton();
+            this.rb_playmode_start_stop = new System.Windows.Forms.RadioButton();
+            this.groupBox_playmode = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackEcho)).BeginInit();
+            this.groupBox_playmode.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtSound
@@ -212,11 +217,60 @@
             this.trackEcho.Value = 50;
             this.trackEcho.Scroll += new System.EventHandler(this.trackEcho_Scroll);
             // 
+            // rb_playmode_multi
+            // 
+            this.rb_playmode_multi.AutoSize = true;
+            this.rb_playmode_multi.Location = new System.Drawing.Point(17, 19);
+            this.rb_playmode_multi.Name = "rb_playmode_multi";
+            this.rb_playmode_multi.Size = new System.Drawing.Size(87, 17);
+            this.rb_playmode_multi.TabIndex = 17;
+            this.rb_playmode_multi.TabStop = true;
+            this.rb_playmode_multi.Text = "Multi (normal)";
+            this.rb_playmode_multi.UseVisualStyleBackColor = true;
+            this.rb_playmode_multi.CheckedChanged += new System.EventHandler(this.rb_playmode_multi_CheckedChanged);
+            // 
+            // rb_playmode_once
+            // 
+            this.rb_playmode_once.AutoSize = true;
+            this.rb_playmode_once.Location = new System.Drawing.Point(17, 42);
+            this.rb_playmode_once.Name = "rb_playmode_once";
+            this.rb_playmode_once.Size = new System.Drawing.Size(51, 17);
+            this.rb_playmode_once.TabIndex = 18;
+            this.rb_playmode_once.TabStop = true;
+            this.rb_playmode_once.Text = "Once";
+            this.rb_playmode_once.UseVisualStyleBackColor = true;
+            this.rb_playmode_once.CheckedChanged += new System.EventHandler(this.rb_playmode_once_CheckedChanged);
+            // 
+            // rb_playmode_start_stop
+            // 
+            this.rb_playmode_start_stop.AutoSize = true;
+            this.rb_playmode_start_stop.Location = new System.Drawing.Point(17, 65);
+            this.rb_playmode_start_stop.Name = "rb_playmode_start_stop";
+            this.rb_playmode_start_stop.Size = new System.Drawing.Size(80, 17);
+            this.rb_playmode_start_stop.TabIndex = 19;
+            this.rb_playmode_start_stop.TabStop = true;
+            this.rb_playmode_start_stop.Text = "Start / Stop";
+            this.rb_playmode_start_stop.UseVisualStyleBackColor = true;
+            this.rb_playmode_start_stop.CheckedChanged += new System.EventHandler(this.rb_playmode_start_stop_CheckedChanged);
+            // 
+            // groupBox_playmode
+            // 
+            this.groupBox_playmode.Controls.Add(this.rb_playmode_multi);
+            this.groupBox_playmode.Controls.Add(this.rb_playmode_start_stop);
+            this.groupBox_playmode.Controls.Add(this.rb_playmode_once);
+            this.groupBox_playmode.Location = new System.Drawing.Point(329, 66);
+            this.groupBox_playmode.Name = "groupBox_playmode";
+            this.groupBox_playmode.Size = new System.Drawing.Size(173, 85);
+            this.groupBox_playmode.TabIndex = 20;
+            this.groupBox_playmode.TabStop = false;
+            this.groupBox_playmode.Text = "Play Mode";
+            // 
             // AddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 329);
+            this.Controls.Add(this.groupBox_playmode);
             this.Controls.Add(this.trackEcho);
             this.Controls.Add(this.chkEcho);
             this.Controls.Add(this.btnDelete);
@@ -242,6 +296,8 @@
             this.Load += new System.EventHandler(this.AddForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackVolume)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackEcho)).EndInit();
+            this.groupBox_playmode.ResumeLayout(false);
+            this.groupBox_playmode.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -265,5 +321,9 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.CheckBox chkEcho;
         private System.Windows.Forms.TrackBar trackEcho;
+        private System.Windows.Forms.RadioButton rb_playmode_multi;
+        private System.Windows.Forms.RadioButton rb_playmode_once;
+        private System.Windows.Forms.RadioButton rb_playmode_start_stop;
+        private System.Windows.Forms.GroupBox groupBox_playmode;
     }
 }

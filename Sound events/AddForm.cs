@@ -25,6 +25,7 @@ namespace Sound_events
         public float Volume = 0.3f;
         public bool UseEcho;
         public float EchoAmount = 50;
+        public Event.PlayModes Playmode = Event.PlayModes.multi;
 
         bool modready;
         bool keyready;
@@ -57,6 +58,9 @@ namespace Sound_events
             chkEcho.Checked = UseEcho;
             trackEcho.Value = (int)EchoAmount;
             trackEcho.Enabled = UseEcho;
+            rb_playmode_multi.Checked = (Playmode == Event.PlayModes.multi);
+            rb_playmode_once.Checked = (Playmode == Event.PlayModes.once);
+            rb_playmode_start_stop.Checked = (Playmode == Event.PlayModes.start_stop);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -211,6 +215,21 @@ namespace Sound_events
         private void trackEcho_Scroll(object sender, EventArgs e)
         {
             EchoAmount = trackEcho.Value;
+        }
+
+        private void rb_playmode_multi_CheckedChanged(object sender, EventArgs e)
+        {
+            Playmode = Event.PlayModes.multi;
+        }
+
+        private void rb_playmode_once_CheckedChanged(object sender, EventArgs e)
+        {
+            Playmode = Event.PlayModes.once;
+        }
+
+        private void rb_playmode_start_stop_CheckedChanged(object sender, EventArgs e)
+        {
+            Playmode = Event.PlayModes.start_stop;
         }
 
         private void txtKey_Enter(object sender, EventArgs e)
