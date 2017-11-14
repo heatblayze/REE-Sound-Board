@@ -24,12 +24,14 @@ namespace Sound_events
         DirectSoundOut soundOut1;
         DirectSoundOut soundOut2;
         public Form1 parent;
+        public string soundFileName;
 
         Timer timer;
         bool done;
 
         public SoundEffect(string a_soundFile, float a_vol, Event ev)
         {
+            soundFileName = ev.SoundName;
             IWaveSource input = CodecFactory.Instance.GetCodec(a_soundFile);
             IWaveSource final = input;
 
